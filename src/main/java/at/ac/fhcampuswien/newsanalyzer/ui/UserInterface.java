@@ -20,12 +20,12 @@ public class UserInterface
 
 	public void getDataFromCtrl2(){
 		System.out.println("Search for Football in Austria");
-		ctrl.process("Football", Country.at, Category.sports);
+		ctrl.process("Fussball", Country.at, Category.sports);
 	}
 
 	public void getDataFromCtrl3(){
-		System.out.println("Search for Football in Austria");
-		ctrl.process("Physics", Country.at, Category.science);
+		System.out.println("Search for Physics in Austria");
+		ctrl.process("Physik", Country.at, Category.science);
 	}
 	
 	public void getDataForCustomInput() {

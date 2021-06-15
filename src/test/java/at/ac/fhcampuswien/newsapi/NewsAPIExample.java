@@ -16,10 +16,10 @@ public class NewsAPIExample {
 
         NewsApi newsApi = new NewsApiBuilder()
                 .setApiKey(APIKEY)
-                .setQ("corona")
+                .setQ("Physik")
                 .setEndPoint(Endpoint.TOP_HEADLINES)// example of how to use enums
                 .setSourceCountry(Country.at)       // example of how to use enums
-                .setSourceCategory(Category.health) // example of how to use enums
+                .setSourceCategory(Category.science) // example of how to use enums
                 .createNewsApi();
 
             NewsResponse newsResponse = newsApi.getNews();

@@ -2,9 +2,13 @@ package at.ac.fhcampuswien.newsanalyzer.ctrl;
 
 import at.ac.fhcampuswien.newsapi.NewsApi;
 import at.ac.fhcampuswien.newsapi.NewsApiBuilder;
+import at.ac.fhcampuswien.newsapi.beans.Article;
+import at.ac.fhcampuswien.newsapi.beans.NewsResponse;
 import at.ac.fhcampuswien.newsapi.enums.Category;
 import at.ac.fhcampuswien.newsapi.enums.Country;
 import at.ac.fhcampuswien.newsapi.enums.Endpoint;
+
+import java.util.List;
 
 public class Controller {
 
@@ -25,7 +29,13 @@ public class Controller {
 				.setSourceCategory(category)
 				.createNewsApi();
 
+		NewsResponse newsResponse = newsApi.getNews();
+		List<Article> articles = newsResponse.getArticles();
 
+		System.out.println(articles.size() + " articles");
+		for (Article article:articles){
+			System.out.println(article.toString());
+		}
 		//TODO implement methods for analysis
 
 		System.out.println("End process");
