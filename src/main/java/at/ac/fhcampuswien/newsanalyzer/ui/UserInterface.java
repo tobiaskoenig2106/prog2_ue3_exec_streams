@@ -24,7 +24,8 @@ public class UserInterface
 	}
 
 	public void getDataFromCtrl3(){
-		// TODO implement me
+		System.out.println("Search for Football in Austria");
+		ctrl.process("Physics", Country.at, Category.science);
 	}
 	
 	public void getDataForCustomInput() {
@@ -40,7 +41,7 @@ public class UserInterface
 		menu.setTitle("Wählen Sie aus:");
 		menu.insert("a", "Choice Corona", this::getDataFromCtrl1);
 		menu.insert("b", "Choice Football", this::getDataFromCtrl2);
-		menu.insert("c", "Choice 3", this::getDataFromCtrl3);
+		menu.insert("c", "Choice Physics", this::getDataFromCtrl3);
 		menu.insert("d", "Choice User Input:",this::getDataForCustomInput);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
