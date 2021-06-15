@@ -2,6 +2,8 @@ package at.ac.fhcampuswien.newsanalyzer.ui;
 
 
 import at.ac.fhcampuswien.newsanalyzer.ctrl.Controller;
+import at.ac.fhcampuswien.newsapi.enums.Category;
+import at.ac.fhcampuswien.newsapi.enums.Country;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,13 +14,13 @@ public class UserInterface
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
-		System.out.println("ABC");
-
-		ctrl.process();
+		System.out.println("Search for Corona in Austria");
+		ctrl.process("Corona", Country.at, Category.health);
 	}
 
 	public void getDataFromCtrl2(){
-		// TODO implement me
+		System.out.println("Search for Football in Austria");
+		ctrl.process("Football", Country.at, Category.sports);
 	}
 
 	public void getDataFromCtrl3(){
@@ -26,15 +28,18 @@ public class UserInterface
 	}
 	
 	public void getDataForCustomInput() {
-		// TODO implement me
+		System.out.print("Type in your Search:\n>");
+		String input = readLine();
+		System.out.println("Search for " + input);
+		ctrl.process(input, Country.at,null);
 	}
 
 
 	public void start() {
 		Menu<Runnable> menu = new Menu<>("User Interface");
 		menu.setTitle("Wählen Sie aus:");
-		menu.insert("a", "Choice ABC", this::getDataFromCtrl1);
-		menu.insert("b", "Choice DEF", this::getDataFromCtrl2);
+		menu.insert("a", "Choice Corona", this::getDataFromCtrl1);
+		menu.insert("b", "Choice Football", this::getDataFromCtrl2);
 		menu.insert("c", "Choice 3", this::getDataFromCtrl3);
 		menu.insert("d", "Choice User Input:",this::getDataForCustomInput);
 		menu.insert("q", "Quit", null);
