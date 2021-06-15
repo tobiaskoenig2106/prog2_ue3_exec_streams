@@ -8,7 +8,9 @@ import at.ac.fhcampuswien.newsapi.enums.Category;
 import at.ac.fhcampuswien.newsapi.enums.Country;
 import at.ac.fhcampuswien.newsapi.enums.Endpoint;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class Controller {
 
@@ -29,6 +31,7 @@ public class Controller {
 				.setSourceCategory(category)
 				.createNewsApi();
 
+
 		NewsResponse newsResponse = newsApi.getNews();
 		List<Article> articles = newsResponse.getArticles();
 
@@ -37,6 +40,29 @@ public class Controller {
 			System.out.println(article.toString());
 		}
 		//TODO implement methods for analysis
+		if(!articles.isEmpty()){
+			//a
+			long count = articles.stream()
+					.count();
+			System.out.println("There are " + count + " articles.");
+
+			//b
+			//String prov = articles.stream()
+			//		.collect();
+
+			//c
+			System.out.println(articles.stream()
+					.filter(article -> article.getAuthor() != null)
+					.min(Comparator.comparingInt(article -> article.getAuthor().length()))
+					.get().getAuthor());
+
+
+			//d
+
+			//e
+
+		}
+
 
 		System.out.println("End process");
 	}
