@@ -8,6 +8,8 @@ import at.ac.fhcampuswien.newsapi.enums.Category;
 import at.ac.fhcampuswien.newsapi.enums.Country;
 import at.ac.fhcampuswien.newsapi.enums.Endpoint;
 
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -94,6 +96,32 @@ public class Controller {
 					.collect(Collectors.toList()).get(0).getTitle());
 
 		}
+
+		//for (Article article : articles) {
+
+
+
+			try {
+				Article article = articles.get(0);
+				URL url = new URL(article.getUrl());
+				InputStream is = url.openStream();
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				File file = new File(article.getTitle().substring(0, 10) + ".html");
+				file.createNewFile();
+				BufferedWriter wr =
+						new BufferedWriter(new FileWriter(file));
+				String line;
+				while ((line = br.readLine()) != null) {
+					wr.write(line);
+				}
+				br.close();
+				wr.close();
+
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			}
+		//}
 
 
 		System.out.println("End process");
