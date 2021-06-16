@@ -25,7 +25,6 @@ public class Controller {
 		System.out.println("Start process");
 
 		//TODO implement Error handling
-
 		//TODO load the news based on the parameters
 		NewsApi newsApi = null;
 		try {
@@ -80,26 +79,32 @@ public class Controller {
 
 
 			//c
-			System.out.println("The shortest author by name is: " +
-					articles.stream()
-					.filter(article -> article.getAuthor() != null)
-					.min(Comparator.comparingInt(article -> article.getAuthor().length()))
-					.filter(article -> article.getAuthor() != null)
-					.get().getAuthor());
+			try {
+				String author = articles.stream()
+						.filter(article -> article.getAuthor() != null)
+						.min(Comparator.comparingInt(article -> article.getAuthor().length()))
+						.get().getAuthor();
+				if(author != null){
+					System.out.println("The shortest author by name is: " + author);
+				}
+			}catch (Exception e){
+				System.err.println("There is no Author in none of this articles");
+			}
+
 
 
 			//d
-			System.out.println("First article by length and alphabetic order is:" +
-					articles.stream()
+			String leng_alph_art = articles.stream()
 					.sorted(Comparator.comparingInt(a -> a.getTitle().length()))
 					.sorted(Comparator.comparing(Article::getTitle))
-					.collect(Collectors.toList()).get(0).getTitle());
+					.collect(Collectors.toList()).get(0).getTitle();
 
+			if(leng_alph_art != null){
+				System.out.println("First article by length and alphabetic order is:" + leng_alph_art);
+			}
 		}
 
 		//for (Article article : articles) {
-
-
 
 			try {
 				Article article = articles.get(0);
