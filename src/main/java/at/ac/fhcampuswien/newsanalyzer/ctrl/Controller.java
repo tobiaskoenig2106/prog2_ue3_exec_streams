@@ -8,9 +8,12 @@ import at.ac.fhcampuswien.newsapi.enums.Category;
 import at.ac.fhcampuswien.newsapi.enums.Country;
 import at.ac.fhcampuswien.newsapi.enums.Endpoint;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -35,10 +38,12 @@ public class Controller {
 		NewsResponse newsResponse = newsApi.getNews();
 		List<Article> articles = newsResponse.getArticles();
 
-		System.out.println(articles.size() + " articles");
+		System.out.println("Articles:");
 		for (Article article:articles){
 			System.out.println(article.toString());
 		}
+		System.out.println();
+
 		//TODO implement methods for analysis
 		if(!articles.isEmpty()){
 			//a
@@ -47,19 +52,33 @@ public class Controller {
 			System.out.println("There are " + count + " articles.");
 
 			//b
-			//String prov = articles.stream()
-			//		.collect();
+			String prov = articles.stream()
+					.collect(Collectors.groupingBy(article -> article.getSource()
+							.getName(),Collectors.counting()))
+					.entrySet().stream()
+					.max(Comparator.comparingInt(a -> Math.toIntExact(a.getValue()))).get().getKey();
+			if(prov != null){
+				System.out.println("The provider with the most puplished articles is: " +
+						prov);
+			}
+
+
 
 			//c
-			System.out.println(articles.stream()
+			System.out.println("The shortest author by name is: " +
+					articles.stream()
 					.filter(article -> article.getAuthor() != null)
 					.min(Comparator.comparingInt(article -> article.getAuthor().length()))
+					.filter(article -> article.getAuthor() != null)
 					.get().getAuthor());
 
 
 			//d
-
-			//e
+			System.out.println("First article by length and alphabetic order is:" +
+					articles.stream()
+					.sorted(Comparator.comparingInt(a -> a.getTitle().length()))
+					.sorted(Comparator.comparing(Article::getTitle))
+					.collect(Collectors.toList()).get(0).getTitle());
 
 		}
 
