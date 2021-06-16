@@ -25,17 +25,30 @@ public class Controller {
 		//TODO implement Error handling
 
 		//TODO load the news based on the parameters
-		NewsApi newsApi;
-		newsApi = new NewsApiBuilder()
-				.setApiKey(APIKEY)
-				.setQ(query)
-				.setEndPoint(Endpoint.TOP_HEADLINES)
-				.setSourceCountry(country)
-				.setSourceCategory(category)
-				.createNewsApi();
+		NewsApi newsApi = null;
+		try {
+			newsApi = new NewsApiBuilder()
+					.setApiKey(APIKEY)
+					.setQ(query)
+					.setEndPoint(Endpoint.TOP_HEADLINES)
+					.setSourceCountry(country)
+					.setSourceCategory(category)
+					.createNewsApi();
+		}catch (Exception e){
+			System.err.println(e.getMessage());
+		}
 
 
-		NewsResponse newsResponse = newsApi.getNews();
+
+		NewsResponse newsResponse = null;
+		try {
+			newsResponse = newsApi.getNews();
+		}catch (Exception e){
+			System.err.println(e.getMessage());
+		}
+
+
+
 		List<Article> articles = newsResponse.getArticles();
 
 		System.out.println("Articles:");
