@@ -114,7 +114,7 @@ public class NewsApi {
         this.endpoint = endpoint;
     }
 
-    protected String requestData() {
+    protected String requestData() throws Exception {
         String url = buildURL();
         System.out.println("URL: " + url);
         URL obj = null;
@@ -122,9 +122,8 @@ public class NewsApi {
             obj = new URL(url);
         } catch (MalformedURLException e) {
             // TODO improve ErrorHandling
-            System.err.println(e.getMessage());
             e.printStackTrace();
-            return null;
+            throw new IllegalArgumentException("URL is incorrect or empty");
         }
         HttpURLConnection con;
         StringBuilder response = new StringBuilder();
@@ -138,17 +137,27 @@ public class NewsApi {
             in.close();
         } catch (IOException e) {
             // TODO improve ErrorHandling
-            System.err.println("Error "+e.getMessage());
             e.printStackTrace();
-            return null;
+            throw new IOException(e.getMessage());
         }
         return response.toString();
     }
 
-    protected String buildURL() {
+    protected String buildURL() throws Exception {
         // TODO ErrorHandling
-        String urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
-        StringBuilder sb = new StringBuilder(urlbase);
+        if(getApiKey().equals("") || getApiKey() == null){
+            throw new Exception("API Key is missing");
+        }
+
+        String urlbase = "";
+        StringBuilder sb;
+        try {
+            urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
+            sb = new StringBuilder(urlbase);
+        }catch (Exception e){
+            throw new Exception("Problem in StringBiulder");
+        }
+
 
         System.out.println(urlbase);
 
@@ -188,7 +197,7 @@ public class NewsApi {
         return sb.toString();
     }
 
-    public NewsResponse getNews() {
+    public NewsResponse getNews() throws Exception {
         NewsResponse newsReponse = null;
         String jsonResponse = requestData();
         if(jsonResponse != null && !jsonResponse.isEmpty()){
@@ -202,6 +211,8 @@ public class NewsApi {
             } catch (JsonProcessingException e) {
                 System.out.println("Error: "+e.getMessage());
             }
+        } else {
+            throw new Exception("The News Response is empty");
         }
         //TODO improve Errorhandling
         return newsReponse;
